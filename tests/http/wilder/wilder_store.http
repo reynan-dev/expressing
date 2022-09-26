@@ -1,0 +1,8 @@
+POST http://localhost:4000/wilders
+Content-Type: application/json
+
+{
+    "username": "Guilherme Wild",
+    "school": "8351ec09-afe8-48da-8739-c0423d25cb64",
+    "skills": ["f7debabb-b19f-44c1-9db5-1ee8b7d97cc0", "f1d9b26e-f95e-4ede-b368-e1ad09177c86"]
+}

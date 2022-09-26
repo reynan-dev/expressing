@@ -1,0 +1,7 @@
+POST http://localhost:4000/schools
+Content-Type: application/json
+
+{
+    "school": "Le Bocassl",
+    "city": "Nice, FR"
+}

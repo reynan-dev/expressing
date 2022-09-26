@@ -1,0 +1,2 @@
+DELETE http://localhost:4000/wilders/69e3d376-1fa0-4962-b60a-b9f5d02b76ff
+Content-Type: application/json

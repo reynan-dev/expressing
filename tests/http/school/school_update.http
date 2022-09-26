@@ -1,0 +1,7 @@
+PUT http://localhost:4000/schools/8351ec09-afe8-48da-8739-c0423d25cb64
+Content-Type: application/json
+
+{
+    "school": "Wild Code School",
+    "city": "Le loupe, FR"
+}
