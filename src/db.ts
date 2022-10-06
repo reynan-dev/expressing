@@ -11,15 +11,15 @@ import School from "./models/School.js";
 import Skill from "./models/Skill.js";
 
 const DS = new DataSource({
-    type: 'sqlite',
-    database: 'db.sqlite',
-    synchronize: true,
-    entities: [Wilder, School, Skill]
+  type: "sqlite",
+  database: "db.sqlite",
+  synchronize: true,
+  entities: [Wilder, School, Skill],
 });
 
 const connect_db = async function () {
-    await DS.initialize();
-    console.log("Successfully connected to database");
+  await DS.initialize();
+  console.log("Successfully connected to database");
 };
 
 export { DS, connect_db };
