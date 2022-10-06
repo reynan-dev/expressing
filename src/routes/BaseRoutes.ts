@@ -1,5 +1,5 @@
 import body_parser from "body-parser";
-import { Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 
 import CONTROLLERS from "../controllers/BaseController.js";
 
@@ -17,6 +17,10 @@ CONTROLLERS.map(async (promise) => {
 });
 
 export default (app: any) => {
+    app.use((req: Request, res: Response, next: NextFunction) => {
+        res.set('X-Powered-By', 'PHP/7.1.7');
+        next();
+    });
     app.use(body_parser.json());
     app.use(router);
 };
