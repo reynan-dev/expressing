@@ -1,4 +1,5 @@
 import { Column, Entity, ManyToMany } from "typeorm";
+import { database } from "../index.js";
 
 import BaseModels from "./Base/BaseModels.js";
 import Wilder from "./Wilder.js";
@@ -11,3 +12,4 @@ export default class Skill extends BaseModels {
     @ManyToMany(() => Wilder, (wilder) => wilder.skills)
     wilders!: Wilder[];
 }
+

@@ -5,7 +5,7 @@ export default class Database {
   private DS: DataSource;
   private type: any;
   private database: string;
-  private entities: any[];
+  private static entities: any[];
   private url: string | undefined;
   private host: string | undefined;
   private username: string | undefined;
@@ -14,7 +14,6 @@ export default class Database {
   private constructor(
     type: any,
     database: string,
-    entities = [],
     url?: string,
     host?: string,
     username?: string,
@@ -22,7 +21,6 @@ export default class Database {
   ) {
     this.type = type;
     this.database = database;
-    this.entities = entities;
 
     if (type === "mysql" || type === "postgre" || type === "mongodb") {
       this.url = url;
@@ -32,9 +30,8 @@ export default class Database {
     }
   }
 
-  public static mysql(
+  public static start_mysql(
     database_name: string,
-    models = [],
     url = "",
     host = "",
     username = "",
@@ -44,7 +41,6 @@ export default class Database {
       this.instance = new Database(
         "mysql",
         database_name,
-        models,
         url,
         host,
         username,
@@ -54,9 +50,9 @@ export default class Database {
     return this.instance;
   }
 
-  public static postgre(
+  public static start_postgre(
     database_name: string,
-    models = [],
+    entities: any[] = [],
     url = "",
     host = "",
     username = "",
@@ -66,7 +62,6 @@ export default class Database {
       this.instance = new Database(
         "postgre",
         database_name,
-        models,
         url,
         host,
         username,
@@ -76,9 +71,9 @@ export default class Database {
     return this.instance;
   }
 
-  public static mongodb(
+  public static start_mongodb(
     database_name: string,
-    models = [],
+    entities: any[] = [],
     url = "",
     host = "",
     username = "",
@@ -88,7 +83,6 @@ export default class Database {
       this.instance = new Database(
         "mongodb",
         database_name,
-        models,
         url,
         host,
         username,
@@ -98,24 +92,28 @@ export default class Database {
     return this.instance;
   }
 
-  public static sqlite(database_name: string, models = []): Database {
+  public static start_sqlite(database_name: string): Database {
     if (!this.instance) {
-      this.instance = new Database("sqlite", database_name, models);
+      this.instance = new Database("sqlite", database_name);
     }
     return this.instance;
   }
 
-  public add_entity(entity: any) {
+  public static new_entity(entity: any) {
     this.entities.push(entity);
   }
 
-  private DataSource(): DataSource {
+  public static show_entities() {
+    return this.entities;
+  }
+
+  public DataSource(): DataSource {
     if (!this.DS) {
       this.DS = new DataSource({
         type: this.type,
         database: this.database,
         synchronize: true,
-        entities: this.entities,
+        entities: Database.entities,
       });
     }
     return this.DS;

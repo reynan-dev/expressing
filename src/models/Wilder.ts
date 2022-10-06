@@ -1,4 +1,5 @@
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne } from "typeorm";
+import { database } from "../index.js";
 
 import BaseModels from "./Base/BaseModels.js";
 import School from "./School.js";
@@ -16,3 +17,4 @@ export default class Wilder extends BaseModels {
     @JoinTable()
     skills!: Skill[];
 }
+
