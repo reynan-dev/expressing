@@ -1,11 +1,14 @@
 import { DataSource } from "typeorm";
+import Skill from "../models/SkillModels.js";
+import School from "../models/SchoolModels.js";
+import Wilder from "../models/WilderModels.js";
 
 export default class Database {
   private static instance: Database;
   private DS: DataSource;
   private type: any;
   private database: string;
-  private static entities: any[];
+  private static entities: any[] = [];
   private url: string | undefined;
   private host: string | undefined;
   private username: string | undefined;
@@ -52,7 +55,6 @@ export default class Database {
 
   public static start_postgre(
     database_name: string,
-    entities: any[] = [],
     url = "",
     host = "",
     username = "",
@@ -73,7 +75,6 @@ export default class Database {
 
   public static start_mongodb(
     database_name: string,
-    entities: any[] = [],
     url = "",
     host = "",
     username = "",
@@ -99,15 +100,15 @@ export default class Database {
     return this.instance;
   }
 
-  public static new_entity(entity: any) {
-    this.entities.push(entity);
+  public static async new_entity(entity: any) {
+    await Database.entities.push(entity);
   }
 
   public static show_entities() {
-    return this.entities;
+    return Database.entities;
   }
 
-  public DataSource(): DataSource {
+  public _datasource(): DataSource {
     if (!this.DS) {
       this.DS = new DataSource({
         type: this.type,
@@ -120,7 +121,12 @@ export default class Database {
   }
 
   public connect = async () => {
-    await this.DataSource().initialize();
+    await this._datasource().initialize();
     console.log("Successfully connected to database");
   };
 }
+
+
+Database.new_entity(Skill);
+Database.new_entity(School);
+Database.new_entity(Wilder);

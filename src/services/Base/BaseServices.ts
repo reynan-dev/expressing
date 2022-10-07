@@ -10,7 +10,7 @@ export default abstract class BaseServices {
 
     constructor(path: string, model: any) {
         this.path = path;
-        this.repository = database.DataSource().getRepository(model)
+        this.repository = database._datasource().getRepository(model)
     }
 
     async find() {

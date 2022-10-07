@@ -1,5 +1,5 @@
 import BaseServices from "./Base/BaseServices.js";
-import School from "../models/School.js";
+import School from "../models/SchoolModels.js";
 
 class SchoolServices extends BaseServices {
   constructor() {
