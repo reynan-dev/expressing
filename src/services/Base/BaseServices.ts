@@ -17,33 +17,30 @@ export default abstract class BaseServices {
     try {
       return await this.repository.find();
     } catch (error) {
-      return {};
+      return error;
     }
   }
 
   async find_by(filter = {}, res: Response) {
     try {
       if (Object.keys(filter).length == 0) {
-        return res.status(401).json({
-          message: "Invalid data",
-        });
+        throw new Error("Invalid data");
       }
+
       return await this.repository.find(filter);
     } catch (error) {
-      return {};
+      return error;
     }
   }
 
   async find_one_by(filter = {}, res: Response) {
     try {
       if (Object.keys(filter).length == 0) {
-        return res.status(401).json({
-          message: "Invalid data",
-        });
+        throw new Error("Invalid data");
       }
       return await this.repository.findOneBy(filter);
     } catch (error) {
-      return {};
+      return error;
     }
   }
 
@@ -55,9 +52,7 @@ export default abstract class BaseServices {
       const service = await (await services).filter((e) => e.path == relation);
 
       if (Object.keys(filter).length == 0) {
-        return res.status(401).json({
-          message: "Invalid data",
-        });
+        throw new Error("Invalid data");
       }
 
       type TWhere = { [key: string]: any };
@@ -68,22 +63,21 @@ export default abstract class BaseServices {
 
       return await service[0].find_by(filter_find);
     } catch (error) {
-      return {};
+      return error;
     }
   }
 
   async create(data = {}, res: Response) {
     try {
       if (Object.keys(data).length == 0) {
-        return res.status(401).json({
-          message: "Invalid data",
-        });
+        throw new Error("Invalid data");
       }
 
       let created = this.repository.create(data);
+
       return await this.repository.save(created);
     } catch (error) {
-      return {};
+      return error;
     }
   }
 
@@ -91,14 +85,14 @@ export default abstract class BaseServices {
     let obj = (await this.find_one_by({ id: id }, res)) as ObjectLiteral;
     try {
       if (Object.keys(data).length == 0) {
-        return await res.status(401).json({
-          message: "Invalid data",
-        });
+        throw new Error("Invalid data");
       }
+
       this.repository.merge(obj, data);
+
       return await this.repository.save(obj);
     } catch (error) {
-      return {};
+      return error;
     }
   }
 
@@ -106,7 +100,7 @@ export default abstract class BaseServices {
     try {
       return await this.repository.delete(id);
     } catch (error) {
-      return {};
+      return error;
     }
   }
 }

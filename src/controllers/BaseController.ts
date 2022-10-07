@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { ObjectLiteral } from "typeorm";
 
 import LIST_SERVICES from "../services/index.js";
+import { getErrorMessage } from "../utils";
 
 class Controller {
   service: any;
@@ -17,19 +18,16 @@ class Controller {
       let obj = await this.service.find();
 
       if (Object.keys(obj).length == 0) {
-        return res.status(404).json({
-          message: "Not found",
-        });
+        throw new Error("Not found");
       }
+
       return res.status(200).json({
         data: obj,
         message: "Successfuly found",
       });
+
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Something was wrong",
-      });
+      this.catch_errors(error, res);
     }
   };
 
@@ -43,9 +41,7 @@ class Controller {
       )) as ObjectLiteral;
 
       if (Object.keys(obj).length == 0) {
-        return res.status(404).json({
-          message: "Not found",
-        });
+        throw new Error("Not found");
       }
 
       return res.status(200).json({
@@ -53,10 +49,7 @@ class Controller {
         message: "Successfuly found",
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Something was wrong",
-      });
+      this.catch_errors(error, res);
     }
   };
 
@@ -67,9 +60,7 @@ class Controller {
       let obj = await this.service.create(data, res);
 
       if (Object.keys(obj).length == 0) {
-        return res.status(400).json({
-          message: "Error during creation",
-        });
+        throw new Error("Not found");
       }
 
       return res.status(201).json({
@@ -77,10 +68,7 @@ class Controller {
         message: "Successfuly created.",
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Something was wrong",
-      });
+      this.catch_errors(error, res);
     }
   };
 
@@ -92,9 +80,7 @@ class Controller {
       let obj = await this.service.update(id, data, res);
 
       if (Object.keys(obj).length == 0) {
-        return res.status(500).json({
-          message: "Error during update",
-        });
+        throw new Error("Not found");
       }
 
       return res.status(200).json({
@@ -102,9 +88,7 @@ class Controller {
         message: "Successfuly updated",
       });
     } catch (error) {
-      return res.status(500).json({
-        message: "Something is wrong",
-      });
+      this.catch_errors(error, res);
     }
   };
 
@@ -115,20 +99,14 @@ class Controller {
       let obj = await this.service.delete(id);
 
       if (Object.keys(obj).length == 0) {
-        return res.status(500).json({
-          message: "Error during deletion",
-        });
+        throw new Error("Not found");
       }
 
-      return res.status(200).json({
-        data: obj,
+      return res.status(204).json({
         message: "Successfuly deleted",
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Something was wrong",
-      });
+      this.catch_errors(error, res);
     }
   };
 
@@ -144,9 +122,7 @@ class Controller {
       )) as ObjectLiteral;
 
       if (Object.keys(obj).length == 0) {
-        return res.status(404).json({
-          message: "Not found",
-        });
+        throw new Error("Not found");
       }
 
       return res.status(200).json({
@@ -154,10 +130,22 @@ class Controller {
         message: "Successfuly found",
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Something was wrong",
-      });
+      this.catch_errors(error, res);
+    }
+  };
+
+  catch_errors = (err: unknown, res: Response) => {
+    const error = getErrorMessage(err);
+
+    switch (error) {
+      case "Not found":
+        return res.status(404).json({ message: error });
+        break;
+      case "Invalid data":
+        return res.status(422).json({ message: error });
+        break;
+      default:
+        return res.status(500).json({ message: "Something was wrong." });
     }
   };
 }
