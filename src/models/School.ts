@@ -5,12 +5,12 @@ import Wilder from "./Wilder.js";
 
 @Entity()
 export default class School extends BaseModels {
-    @Column({ unique: true })
-    school!: string;
+  @Column({ unique: true })
+  school!: string;
 
-    @Column()
-    city!: string;
+  @Column()
+  city!: string;
 
-    @OneToMany(() => Wilder, (wilder) => wilder.schools)
-    wilders!: Wilder[];
+  @OneToMany(() => Wilder, (wilder) => wilder.schools)
+  wilders!: Wilder[];
 }

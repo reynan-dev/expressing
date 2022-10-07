@@ -7,11 +7,11 @@ const app = express();
 const PORT = 4000;
 
 const start = async () => {
-    await connect_db();
+  await connect_db();
 
-    app.listen(PORT, () => console.log(`Server is listen in port ${PORT}`));
+  app.listen(PORT, () => console.log(`Server is listen in port ${PORT}`));
 
-    routes(app);
+  routes(app);
 };
 
 start();
