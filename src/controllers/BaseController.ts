@@ -144,6 +144,8 @@ class Controller {
       case "Invalid data":
         return res.status(422).json({ message: error });
         break;
+      default:
+        return res.status(500).json({ message: "Something was wrong." });
     }
   };
 }
