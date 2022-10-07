@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { ObjectLiteral } from "typeorm";
 
 import LIST_SERVICES from "../services/index.js";
-import { getErrorMessage } from "../utils";
+import { getErrorMessage } from "../utils/error.js";
 
 class Controller {
   service: any;
