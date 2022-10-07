@@ -3,8 +3,6 @@ import express from "express";
 import routes from "./routes/BaseRoutes.js";
 import Database from "./utils/database.js";
 
-import LIST_MODELS from './models/index.js';
-
 const database = Database.start_sqlite('db.sqlite');
 
 const app = express();

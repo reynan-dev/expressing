@@ -13,9 +13,7 @@ class WilderServices extends BaseServices {
   async create(data: ObjectLiteral = {}, res: Response) {
     try {
       if (Object.keys(data).length == 0) {
-        return res.status(401).json({
-          message: "Invalid data",
-        });
+        throw new Error("Invalid data");
       }
 
       if (data["skills"]) {
@@ -34,9 +32,7 @@ class WilderServices extends BaseServices {
     let obj = (await this.find_one_by({ id: id }, res)) as ObjectLiteral;
     try {
       if (Object.keys(data).length == 0) {
-        return await res.status(401).json({
-          message: "Invalid data",
-        });
+        throw new Error("Invalid data");
       }
 
       if (data["skills"]) {
