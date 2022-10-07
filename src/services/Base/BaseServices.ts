@@ -1,17 +1,17 @@
 import { Response } from "express";
 import { ObjectLiteral } from "typeorm";
 
-import { DS } from "../../db.js";
-import LIST_SERVICES from "../index.js";
+import { database } from "../../index.js";
+import LIST_SERVICES from '../index.js'
 
 export default abstract class BaseServices {
   path: string;
   repository: any;
 
   constructor(path: string, model: any) {
-    this.path = path;
-    this.repository = DS.getRepository(model);
-  }
+        this.path = path;
+        this.repository = database._datasource().getRepository(model)
+      }
 
   async find() {
     try {

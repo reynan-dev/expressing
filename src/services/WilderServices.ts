@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { ObjectLiteral } from "typeorm";
 
-import Wilder from "../models/Wilder.js";
+import Wilder from "../models/WilderModels.js";
 import BaseServices from "./Base/BaseServices.js";
 import SkillServices from "./SkillServices.js";
 

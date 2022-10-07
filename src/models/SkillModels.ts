@@ -1,7 +1,7 @@
 import { Column, Entity, ManyToMany } from "typeorm";
 
 import BaseModels from "./Base/BaseModels.js";
-import Wilder from "./Wilder.js";
+import Wilder from "./WilderModels.js";
 
 @Entity()
 export default class Skill extends BaseModels {
