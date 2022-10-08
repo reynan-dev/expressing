@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { ObjectLiteral } from "typeorm";
+import BaseServices from "../services/Base/BaseServices.js";
 
 import LIST_SERVICES from "../services/index.js";
 import { getErrorMessage } from "../utils/error.js";
@@ -8,14 +9,14 @@ class Controller {
   service: any;
   path: string;
 
-  constructor(path: string, service: any) {
+  constructor(path: string, service: BaseServices) {
     this.path = path;
     this.service = service;
   }
 
   index = async (_req: Request, res: Response) => {
     try {
-      let obj = await this.service.find();
+      const obj = await this.service.find();
 
       if (Object.keys(obj).length == 0) {
         throw new Error("Not found");
@@ -25,7 +26,6 @@ class Controller {
         data: obj,
         message: "Successfuly found",
       });
-
     } catch (error) {
       this.catch_errors(error, res);
     }
@@ -35,10 +35,7 @@ class Controller {
     const { id } = req.params;
 
     try {
-      let obj = (await this.service.find_one_by(
-        { id: id },
-        res
-      )) as ObjectLiteral;
+      const obj = (await this.service.find_one_by({ id: id })) as ObjectLiteral;
 
       if (Object.keys(obj).length == 0) {
         throw new Error("Not found");
@@ -57,7 +54,7 @@ class Controller {
     const data = req.body;
 
     try {
-      let obj = await this.service.create(data, res);
+      const obj = await this.service.create(data);
 
       if (Object.keys(obj).length == 0) {
         throw new Error("Not found");
@@ -77,7 +74,7 @@ class Controller {
     const data = req.body;
 
     try {
-      let obj = await this.service.update(id, data, res);
+      const obj = await this.service.update(id, data);
 
       if (Object.keys(obj).length == 0) {
         throw new Error("Not found");
@@ -96,7 +93,7 @@ class Controller {
     const { id } = req.params;
 
     try {
-      let obj = await this.service.delete(id);
+      const obj = await this.service.delete(id);
 
       if (Object.keys(obj).length == 0) {
         throw new Error("Not found");
@@ -117,8 +114,7 @@ class Controller {
     try {
       let obj = (await this.service.find_relation(
         { id: id },
-        relation,
-        res
+        relation
       )) as ObjectLiteral;
 
       if (Object.keys(obj).length == 0) {
@@ -140,10 +136,8 @@ class Controller {
     switch (error) {
       case "Not found":
         return res.status(404).json({ message: error });
-        break;
       case "Invalid data":
         return res.status(422).json({ message: error });
-        break;
       default:
         return res.status(500).json({ message: "Something was wrong." });
     }

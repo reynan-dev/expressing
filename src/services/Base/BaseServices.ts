@@ -1,4 +1,3 @@
-import { Response } from "express";
 import { ObjectLiteral } from "typeorm";
 
 import { database } from "../../index.js";
@@ -21,7 +20,7 @@ export default abstract class BaseServices {
     }
   }
 
-  async find_by(filter = {}, res: Response) {
+  async find_by(filter = {}) {
     try {
       if (Object.keys(filter).length == 0) {
         throw new Error("Invalid data");
@@ -33,7 +32,7 @@ export default abstract class BaseServices {
     }
   }
 
-  async find_one_by(filter = {}, res: Response) {
+  async find_one_by(filter = {}) {
     try {
       if (Object.keys(filter).length == 0) {
         throw new Error("Invalid data");
@@ -44,9 +43,9 @@ export default abstract class BaseServices {
     }
   }
 
-  async find_relation(filter = {}, relation: string, res: Response) {
+  async find_relation(filter = {}, relation: string) {
     try {
-      let obj = await this.repository.findOneBy(filter);
+      const obj = await this.repository.findOneBy(filter);
 
       const services = Promise.all(LIST_SERVICES);
       const service = await (await services).filter((e) => e.path == relation);
@@ -55,7 +54,7 @@ export default abstract class BaseServices {
         throw new Error("Invalid data");
       }
 
-      type TWhere = { [key: string]: any };
+      type TWhere = { [key: string]: ObjectLiteral };
       const filter_find: TWhere = { relations: {}, where: {} };
       const where = { id: obj.id };
       filter_find["relations"][this.path] = true;
@@ -67,13 +66,13 @@ export default abstract class BaseServices {
     }
   }
 
-  async create(data = {}, res: Response) {
+  async create(data = {}) {
     try {
       if (Object.keys(data).length == 0) {
         throw new Error("Invalid data");
       }
 
-      let created = this.repository.create(data);
+      const created = this.repository.create(data);
 
       return await this.repository.save(created);
     } catch (error) {
@@ -81,8 +80,8 @@ export default abstract class BaseServices {
     }
   }
 
-  async update(id: string, data = {}, res: Response) {
-    let obj = (await this.find_one_by({ id: id }, res)) as ObjectLiteral;
+  async update(id: string, data = {}) {
+    const obj = (await this.find_one_by({ id: id })) as ObjectLiteral;
     try {
       if (Object.keys(data).length == 0) {
         throw new Error("Invalid data");

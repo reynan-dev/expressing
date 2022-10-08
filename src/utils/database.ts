@@ -1,4 +1,5 @@
-import { DataSource } from "typeorm";
+import { DatabaseType, DataSource, EntitySchema, MixedList } from "typeorm";
+
 import Skill from "../models/SkillModels.js";
 import School from "../models/SchoolModels.js";
 import Wilder from "../models/WilderModels.js";
@@ -6,16 +7,16 @@ import Wilder from "../models/WilderModels.js";
 export default class Database {
   private static instance: Database;
   private DS: DataSource;
-  private type: any;
+  private type: DatabaseType;
   private database: string;
-  private static entities: any[] = [];
+  private static entities: MixedList<Function | string | EntitySchema> = [];
   private url: string | undefined;
   private host: string | undefined;
   private username: string | undefined;
   private password: string | undefined;
 
   private constructor(
-    type: any,
+    type: DatabaseType,
     database: string,
     url?: string,
     host?: string,
@@ -25,7 +26,7 @@ export default class Database {
     this.type = type;
     this.database = database;
 
-    if (type === "mysql" || type === "postgre" || type === "mongodb") {
+    if (type === "mysql" || type === "postgres" || type === "mongodb") {
       this.url = url;
       this.host = host;
       this.username = username;
@@ -53,7 +54,7 @@ export default class Database {
     return this.instance;
   }
 
-  public static start_postgre(
+  public static start_postgres(
     database_name: string,
     url = "",
     host = "",
@@ -62,7 +63,7 @@ export default class Database {
   ): Database {
     if (!this.instance) {
       this.instance = new Database(
-        "postgre",
+        "postgres",
         database_name,
         url,
         host,
@@ -100,7 +101,7 @@ export default class Database {
     return this.instance;
   }
 
-  public static async new_entity(entity: any) {
+  public static async new_entity(entity: MixedList<Function | string | EntitySchema>) {
     await Database.entities.push(entity);
   }
 
