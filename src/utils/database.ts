@@ -1,4 +1,5 @@
-import { DataSource } from "typeorm";
+import { DatabaseType, DataSource } from "typeorm";
+
 import Skill from "../models/SkillModels.js";
 import School from "../models/SchoolModels.js";
 import Wilder from "../models/WilderModels.js";
@@ -6,8 +7,10 @@ import Wilder from "../models/WilderModels.js";
 export default class Database {
   private static instance: Database;
   private DS: DataSource;
+  // deno-lint-ignore no-explicit-any
   private type: any;
   private database: string;
+  // deno-lint-ignore no-explicit-any
   private static entities: any[] = [];
   private url: string | undefined;
   private host: string | undefined;
@@ -15,7 +18,7 @@ export default class Database {
   private password: string | undefined;
 
   private constructor(
-    type: any,
+    type: DatabaseType,
     database: string,
     url?: string,
     host?: string,
@@ -25,7 +28,7 @@ export default class Database {
     this.type = type;
     this.database = database;
 
-    if (type === "mysql" || type === "postgre" || type === "mongodb") {
+    if (type === "mysql" || type === "postgres" || type === "mongodb") {
       this.url = url;
       this.host = host;
       this.username = username;
@@ -53,7 +56,7 @@ export default class Database {
     return this.instance;
   }
 
-  public static start_postgre(
+  public static start_postgres(
     database_name: string,
     url = "",
     host = "",
@@ -62,7 +65,7 @@ export default class Database {
   ): Database {
     if (!this.instance) {
       this.instance = new Database(
-        "postgre",
+        "postgres",
         database_name,
         url,
         host,
@@ -99,7 +102,8 @@ export default class Database {
     }
     return this.instance;
   }
-
+  
+  // deno-lint-ignore no-explicit-any
   public static async new_entity(entity: any) {
     await Database.entities.push(entity);
   }
@@ -125,7 +129,6 @@ export default class Database {
     console.log("Successfully connected to database");
   };
 }
-
 
 Database.new_entity(Skill);
 Database.new_entity(School);

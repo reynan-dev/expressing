@@ -9,8 +9,8 @@ export default class Wilder extends BaseModels {
   @Column()
   username!: string;
 
-    @ManyToOne(() => School, (school) => school.wilders, { eager: true })
-    schools!: any;
+  @ManyToOne(() => School, (school) => school.wilders, { eager: true })
+  schools!: School;
 
   @ManyToMany(() => Skill, { eager: true })
   @JoinTable()
