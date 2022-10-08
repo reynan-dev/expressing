@@ -1,4 +1,4 @@
-import { DatabaseType, DataSource, EntitySchema, MixedList } from "typeorm";
+import { DatabaseType, DataSource } from "typeorm";
 
 import Skill from "../models/SkillModels.js";
 import School from "../models/SchoolModels.js";
@@ -126,7 +126,6 @@ export default class Database {
     console.log("Successfully connected to database");
   };
 }
-
 
 Database.new_entity(Skill);
 Database.new_entity(School);
