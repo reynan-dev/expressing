@@ -1,16 +1,17 @@
 import { ObjectLiteral } from "typeorm";
 
 import { database } from "../../index.js";
-import LIST_SERVICES from '../index.js'
+import LIST_SERVICES from "../index.js";
 
 export default abstract class BaseServices {
   path: string;
+  // deno-lint-ignore no-explicit-any
   repository: any;
-
+  // deno-lint-ignore no-explicit-any
   constructor(path: string, model: any) {
-        this.path = path;
-        this.repository = database._datasource().getRepository(model)
-      }
+    this.path = path;
+    this.repository = database._datasource().getRepository(model);
+  }
 
   async find() {
     try {

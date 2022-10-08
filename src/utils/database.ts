@@ -7,8 +7,10 @@ import Wilder from "../models/WilderModels.js";
 export default class Database {
   private static instance: Database;
   private DS: DataSource;
+  // deno-lint-ignore no-explicit-any
   private type: any;
   private database: string;
+  // deno-lint-ignore no-explicit-any
   private static entities: any[] = [];
   private url: string | undefined;
   private host: string | undefined;
@@ -100,7 +102,8 @@ export default class Database {
     }
     return this.instance;
   }
-
+  
+  // deno-lint-ignore no-explicit-any
   public static async new_entity(entity: any) {
     await Database.entities.push(entity);
   }
