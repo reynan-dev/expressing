@@ -1,18 +1,18 @@
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne } from 'typeorm'
 
-import BaseModels from "./Base/BaseModels.js";
-import School from "./SchoolModels.js";
-import Skill from "./SkillModels.js";
+import BaseModels from './Base/BaseModels.js'
+import School from './SchoolModels.js'
+import Skill from './SkillModels.js'
 
 @Entity()
 export default class Wilder extends BaseModels {
   @Column()
-  username!: string;
+    username!: string
 
   @ManyToOne(() => School, (school) => school.wilders, { eager: true })
-  schools!: School;
+    schools!: School
 
   @ManyToMany(() => Skill, { eager: true })
   @JoinTable()
-  skills!: Skill[];
+    skills!: Skill[]
 }

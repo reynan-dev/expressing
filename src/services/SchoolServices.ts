@@ -1,10 +1,10 @@
-import BaseServices from "./Base/BaseServices.js";
-import School from "../models/SchoolModels.js";
+import BaseServices from './Base/BaseServices.js'
+import School from '../models/SchoolModels.js'
 
 class SchoolServices extends BaseServices {
-  constructor() {
-    super("schools", School);
+  constructor () {
+    super('schools', School)
   }
 }
 
-export default new SchoolServices();
+export default new SchoolServices()
