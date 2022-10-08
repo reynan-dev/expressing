@@ -7,9 +7,9 @@ import Wilder from "../models/WilderModels.js";
 export default class Database {
   private static instance: Database;
   private DS: DataSource;
-  private type: DatabaseType;
+  private type: any;
   private database: string;
-  private static entities: MixedList<Function | string | EntitySchema> = [];
+  private static entities: any[] = [];
   private url: string | undefined;
   private host: string | undefined;
   private username: string | undefined;
@@ -101,7 +101,7 @@ export default class Database {
     return this.instance;
   }
 
-  public static async new_entity(entity: MixedList<Function | string | EntitySchema>) {
+  public static async new_entity(entity: any) {
     await Database.entities.push(entity);
   }
 

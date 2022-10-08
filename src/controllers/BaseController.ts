@@ -112,7 +112,7 @@ class Controller {
     const { relation } = req.params;
 
     try {
-      let obj = (await this.service.find_relation(
+      const obj = (await this.service.find_relation(
         { id: id },
         relation
       )) as ObjectLiteral;

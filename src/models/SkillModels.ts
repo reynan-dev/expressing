@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToMany } from "typeorm";
+import { Column, Entity, EntitySchema, ManyToMany } from "typeorm";
 
 import BaseModels from "./Base/BaseModels.js";
 import Wilder from "./WilderModels.js";

@@ -1,4 +1,3 @@
-import { Response } from "express";
 import { ObjectLiteral } from "typeorm";
 
 import Wilder from "../models/WilderModels.js";
