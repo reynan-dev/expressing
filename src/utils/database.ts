@@ -1,23 +1,23 @@
-import { DatabaseType, DataSource } from "typeorm";
+import { DatabaseType, DataSource } from 'typeorm'
 
-import Skill from "../models/SkillModels.js";
-import School from "../models/SchoolModels.js";
-import Wilder from "../models/WilderModels.js";
+import Skill from '../models/SkillModels.js'
+import School from '../models/SchoolModels.js'
+import Wilder from '../models/WilderModels.js'
 
 export default class Database {
-  private static instance: Database;
-  private DS: DataSource;
+  private static instance: Database
+  private DS: DataSource
   // deno-lint-ignore no-explicit-any
-  private type: any;
-  private database: string;
+  private readonly type: any
+  private readonly database: string
   // deno-lint-ignore no-explicit-any
-  private static entities: any[] = [];
-  private url: string | undefined;
-  private host: string | undefined;
-  private username: string | undefined;
-  private password: string | undefined;
+  private static readonly entities: any[] = []
+  private readonly url: string | undefined
+  private readonly host: string | undefined
+  private readonly username: string | undefined
+  private readonly password: string | undefined
 
-  private constructor(
+  private constructor (
     type: DatabaseType,
     database: string,
     url?: string,
@@ -25,111 +25,111 @@ export default class Database {
     username?: string,
     password?: string
   ) {
-    this.type = type;
-    this.database = database;
+    this.type = type
+    this.database = database
 
-    if (type === "mysql" || type === "postgres" || type === "mongodb") {
-      this.url = url;
-      this.host = host;
-      this.username = username;
-      this.password = password;
+    if (type === 'mysql' || type === 'postgres' || type === 'mongodb') {
+      this.url = url
+      this.host = host
+      this.username = username
+      this.password = password
     }
   }
 
-  public static start_mysql(
-    database_name: string,
-    url = "",
-    host = "",
-    username = "",
-    password = ""
+  public static start_mysql (
+    databaseName: string,
+    url = '',
+    host = '',
+    username = '',
+    password = ''
   ): Database {
     if (!this.instance) {
       this.instance = new Database(
-        "mysql",
-        database_name,
+        'mysql',
+        databaseName,
         url,
         host,
         username,
         password
-      );
+      )
     }
-    return this.instance;
+    return this.instance
   }
 
-  public static start_postgres(
-    database_name: string,
-    url = "",
-    host = "",
-    username = "",
-    password = ""
+  public static start_postgres (
+    databaseName: string,
+    url = '',
+    host = '',
+    username = '',
+    password = ''
   ): Database {
     if (!this.instance) {
       this.instance = new Database(
-        "postgres",
-        database_name,
+        'postgres',
+        databaseName,
         url,
         host,
         username,
         password
-      );
+      )
     }
-    return this.instance;
+    return this.instance
   }
 
-  public static start_mongodb(
-    database_name: string,
-    url = "",
-    host = "",
-    username = "",
-    password = ""
+  public static start_mongodb (
+    databaseName: string,
+    url = '',
+    host = '',
+    username = '',
+    password = ''
   ): Database {
     if (!this.instance) {
       this.instance = new Database(
-        "mongodb",
-        database_name,
+        'mongodb',
+        databaseName,
         url,
         host,
         username,
         password
-      );
+      )
     }
-    return this.instance;
+    return this.instance
   }
 
-  public static start_sqlite(database_name: string): Database {
+  public static start_sqlite (databaseName: string): Database {
     if (!this.instance) {
-      this.instance = new Database("sqlite", database_name);
+      this.instance = new Database('sqlite', databaseName)
     }
-    return this.instance;
+    return this.instance
   }
-  
+
   // deno-lint-ignore no-explicit-any
-  public static async new_entity(entity: any) {
-    await Database.entities.push(entity);
+  public static new_entity (entity: any) {
+    Database.entities.push(entity)
   }
 
-  public static show_entities() {
-    return Database.entities;
+  public static show_entities () {
+    return Database.entities
   }
 
-  public _datasource(): DataSource {
+  public _datasource (): DataSource {
     if (!this.DS) {
       this.DS = new DataSource({
         type: this.type,
         database: this.database,
         synchronize: true,
-        entities: Database.entities,
-      });
+        entities: Database.entities
+      })
     }
-    return this.DS;
+    return this.DS
   }
 
   public connect = async () => {
-    await this._datasource().initialize();
-    console.log("Successfully connected to database");
-  };
+    await this._datasource().initialize()
+    console.log('Successfully connected to database')
+  }
 }
 
-Database.new_entity(Skill);
-Database.new_entity(School);
-Database.new_entity(Wilder);
+Database.new_entity(Skill)
+Database.new_entity(School)
+Database.new_entity(Wilder)

@@ -3,20 +3,20 @@ import {
   DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from "typeorm";
+  UpdateDateColumn
+} from 'typeorm'
 
 @Entity()
 export default class BaseModels {
-  @PrimaryGeneratedColumn("uuid")
-  id!: string;
+  @PrimaryGeneratedColumn('uuid')
+    id!: string
 
   @CreateDateColumn()
-  createAt: Date;
+    createAt: Date
 
   @UpdateDateColumn()
-  updateAt: Date;
+    updateAt: Date
 
   @DeleteDateColumn()
-  deletedAt: Date;
+    deletedAt: Date
 }
