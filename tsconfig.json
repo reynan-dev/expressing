@@ -8,7 +8,7 @@
 
     /* Modules */
     "module": "es2022",
-    "rootDir": "./src",
+    "rootDir": ".",
     "moduleResolution": "node",
 
     /* Emit */
