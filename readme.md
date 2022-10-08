@@ -2,7 +2,7 @@
 
 The main idea is to create a framework that can be used by anyone, so we need to make it easy to use and to understand.
 
-## How can I help you?
+## How contribute with us
 
 Its a nice question that we receive sometimes, so we decided to write a little bit about it.
 
