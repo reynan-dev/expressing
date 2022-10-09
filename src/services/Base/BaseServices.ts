@@ -13,7 +13,7 @@ export default abstract class BaseServices {
     this.repository = database._datasource().getRepository(model)
   }
 
-  async find () {
+  find () {
     try {
       return this.repository.find()
       // TODO Implement Not Found return when the obj was null.
@@ -22,7 +22,7 @@ export default abstract class BaseServices {
     }
   }
 
-  async find_by (filter = {}) {
+  find_by (filter = {}) {
     try {
       if (Object.keys(filter).length === 0) {
         throw new Error('Invalid data')
@@ -35,7 +35,7 @@ export default abstract class BaseServices {
     }
   }
 
-  async find_one_by (filter = {}) {
+  find_one_by (filter = {}) {
     try {
       if (Object.keys(filter).length === 0) {
         throw new Error('Invalid data')
@@ -71,7 +71,7 @@ export default abstract class BaseServices {
     }
   }
 
-  async create (data = {}) {
+  create (data = {}) {
     try {
       if (Object.keys(data).length === 0) {
         throw new Error('Invalid data')
@@ -101,7 +101,7 @@ export default abstract class BaseServices {
     }
   }
 
-  async delete (id: string) {
+  delete (id: string) {
     try {
       return this.repository.delete(id)
     } catch (error) {
