@@ -37,7 +37,7 @@ class Controller {
 
     try {
       const obj = (await this.service.find_one_by({ id })) as ObjectLiteral
-      console.log(obj)
+
       if (Object.keys(obj).length === 0) {
         throw new Error('Not found')
       }
@@ -136,10 +136,13 @@ class Controller {
 
     switch (error) {
       case 'Not found':
+        console.error(error)
         return res.status(404).json({ message: error })
       case 'Invalid data':
+        console.error(error)
         return res.status(422).json({ message: error })
       default:
+        console.error(error)
         return res.status(500).json({ message: 'Something was wrong.' })
     }
   }

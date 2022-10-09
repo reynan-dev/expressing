@@ -87,6 +87,7 @@ export default abstract class BaseServices {
 
   async update (id: string, data = {}) {
     const obj = (await this.find_one_by({ id })) as ObjectLiteral
+
     try {
       if (Object.keys(data).length === 0) {
         throw new Error('Invalid data')
