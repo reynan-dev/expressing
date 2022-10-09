@@ -16,6 +16,7 @@ export default abstract class BaseServices {
   async find () {
     try {
       return this.repository.find()
+      // TODO Implement Not Found return when the obj was null.
     } catch (error) {
       return error
     }
@@ -28,6 +29,7 @@ export default abstract class BaseServices {
       }
 
       return this.repository.find(filter)
+      // TODO Implement Not Found return when the obj was null.
     } catch (error) {
       return error
     }
@@ -39,6 +41,7 @@ export default abstract class BaseServices {
         throw new Error('Invalid data')
       }
       return this.repository.findOneBy(filter)
+      // TODO Implement Not Found return when the obj was null.
     } catch (error) {
       return error
     }
@@ -62,6 +65,7 @@ export default abstract class BaseServices {
       filterFind.where[this.path] = where
 
       return service[0].find_by(filterFind)
+      // TODO Implement Not Found return when the obj was null.
     } catch (error) {
       return error
     }
