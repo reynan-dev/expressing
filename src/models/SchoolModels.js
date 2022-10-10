@@ -1,16 +1,19 @@
-import { Column, Entity, OneToMany } from 'typeorm'
+import { DataTypes, Model } from 'sequelize'
+class School extends Model {
 
-import BaseModels from './Base/BaseModels.js'
-import Wilder from './WilderModels.js'
-
-@Entity()
-export default class School extends BaseModels {
-  @Column({ unique: true })
-    school
-
-  @Column()
-    city
-
-  @OneToMany(() => Wilder, (wilder) => wilder.schools)
-    wilders
+  static associate (models) {
+    School.hasMany(models.Student, { foreignKey: 'school' })
+  }
 }
+
+School.init({
+  school: DataTypes.STRING,
+  city: DataTypes.STRING,
+}, {
+  sequelize,
+  modelName: 'school',
+  paranoid: true,
+  timestamps: true,
+})
+
+return School

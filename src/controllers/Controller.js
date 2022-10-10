@@ -1,5 +1,5 @@
-import LIST_SERVICES from '../services/index';
-import getErrorMessage from '../utils/error';
+import LIST_SERVICES from '../services/index.js';
+import getErrorMessage from '../utils/error.js';
 
 class Controller {
   // deno-lint-ignore no-explicit-any

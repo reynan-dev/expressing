@@ -1,7 +1,7 @@
 import bodyParser from 'body-parser';
 import { Router } from 'express';
 
-import CONTROLLERS from '../controllers/Controller';
+import CONTROLLERS from '../controllers/Controller.js';
 
 const router = Router();
 

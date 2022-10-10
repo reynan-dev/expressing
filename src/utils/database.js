@@ -1,8 +1,8 @@
 import { DataSource } from 'typeorm';
 
-import Skill from '../models/SkillModels';
-import School from '../models/SchoolModels';
-import Wilder from '../models/WilderModels';
+import Skill from '../models/SkillModels.js';
+import School from '../models/SchoolModels.js';
+import Wilder from '../models/WilderModels.js';
 
 export default class Database {
   static instance;

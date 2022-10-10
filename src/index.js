@@ -1,7 +1,6 @@
 import express from 'express';
-
-import routes from './routes/Routes';
-import Database from './utils/database';
+import routes from './routes/routes.js';
+import Database from './utils/database.js';
 
 const database = Database.start_sqlite('db.sqlite');
 

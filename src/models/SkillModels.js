@@ -1,13 +1,19 @@
-import { Column, Entity, ManyToMany } from 'typeorm'
+import { DataTypes, Model } from 'sequelize'
 
-import BaseModels from './Base/BaseModels.js'
-import Wilder from './WilderModels.js'
+class Skill extends Model {
 
-@Entity()
-export default class Skill extends BaseModels {
-  @Column()
-    skill
-
-  @ManyToMany(() => Wilder, (wilder) => wilder.skills)
-    wilders
+  static associate (models) {
+    Skill.belongsToMany(models.Student, { through: 'student_skill' })
+  }
 }
+
+Skill.init({
+  skill: DataTypes.STRING,
+}, {
+  sequelize,
+  modelName: 'skill',
+  paranoid: true,
+  timestamps: true,
+})
+
+return Skill

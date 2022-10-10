@@ -1,5 +1,5 @@
-import { database } from '../../index';
-import LIST_SERVICES from '../index';
+import { database } from '../../index.js';
+import LIST_SERVICES from '../index.js';
 
 export default class BaseServices {
   path;

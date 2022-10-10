@@ -1,11 +1,10 @@
-import BaseServices from './Base/BaseServices';
+import BaseServices from './Base/BaseServices.js';
+import Student from '../models/StudentModels.js';
+import SkillServices from './SkillServices.js';
 
-import Wilder from '../models/WilderModels';
-import SkillServices from './SkillServices';
-
-class WilderServices extends BaseServices {
+class StudentServices extends BaseServices {
   constructor() {
-    super('wilders', Wilder);
+    super('students', Student);
   }
 
   async create(data = {}) {
@@ -60,4 +59,4 @@ class WilderServices extends BaseServices {
   }
 }
 
-export default new WilderServices();
+export default new StudentServices();
