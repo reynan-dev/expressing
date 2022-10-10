@@ -1,16 +1,15 @@
-import BaseServices from './Base/BaseServices.js';
-import Student from '../models/StudentModels.js';
-import SkillServices from './SkillServices.js';
+import BaseServices from "./Base/Services";
+import Student from "../models/Student";
 
 class StudentServices extends BaseServices {
   constructor() {
-    super('students', Student);
+    super("students", Student);
   }
 
-  async create(data = {}) {
+  async create (data = {}) {
     try {
       if (Object.keys(data).length === 0) {
-        throw new Error('Invalid data');
+        throw new Error("Invalid data");
       }
 
       if (data.skills) {
@@ -19,17 +18,18 @@ class StudentServices extends BaseServices {
       }
 
       const created = this.repository.create(data);
+
       return this.repository.save(created);
     } catch (error) {
       return error;
     }
   }
 
-  async update(id, data = {}) {
-    const obj = (await this.find_one_by({ id }));
+  async update (data, filter, transaction = undefined) {
+    const obj = await this.find_by(filter);
     try {
       if (Object.keys(data).length === 0) {
-        throw new Error('Invalid data');
+        throw new Error("Invalid data");
       }
 
       if (data.skills) {
@@ -37,14 +37,22 @@ class StudentServices extends BaseServices {
         data.skills = skills;
       }
 
-      this.repository.merge(obj, data);
-      return this.repository.save(obj);
+      this.transaction(t => {
+        obj.map(object => {
+          if (transaction) {
+            return this.repository.update(data, { where: { id: object.id } },
+              { transaction: transaction });
+          }
+          return this.repository.update(data, { where: { id: object.id } })
+        })
+      })
+
     } catch (error) {
       return error;
     }
   }
 
-  add_skill(skills) {
+  add_skill (skills) {
     try {
       const listSkills = [];
 
@@ -57,6 +65,3 @@ class StudentServices extends BaseServices {
       return error;
     }
   }
-}
-
-export default new StudentServices();

@@ -3,7 +3,7 @@ import { readdirSync } from 'fs';
 import { Sequelize } from 'sequelize';
 import path from 'path';
 
-import Database from '../utils/database_new';
+import Database from '../utils/database';
 
 const _filename = fileURLToPath(import.meta.url);
 const _dirname = path.dirname(_filename);

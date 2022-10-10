@@ -3,7 +3,7 @@ import { DataTypes, Model } from 'sequelize'
 class Skill extends Model {
 
   static associate (models) {
-    Skill.belongsToMany(models.Student, { through: 'student_skill' })
+    Skill.belongsToMany(models.Student, { through: 'student_skills' })
   }
 }
 

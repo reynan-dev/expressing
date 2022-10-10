@@ -13,6 +13,7 @@ CONTROLLERS.map(async (promise) => {
   router.post(`/${controller.path}`, controller.store);
   router.put(`/${controller.path}/:id`, controller.update);
   router.delete(`/${controller.path}/:id`, controller.destroy);
+  router.post(`/${controller.path}/:id/restore`, controller.restore);
   router.get(`/${controller.path}/:id/:relation`, controller.relations);
 });
 

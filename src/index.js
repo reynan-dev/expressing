@@ -1,14 +1,13 @@
 import express from 'express';
-import routes from './routes/routes.js';
-import Database from './utils/database.js';
+import db from './models/index';
+import routes from './routes/routes';
 
-const database = Database.start_sqlite('db.sqlite');
+const database = db;
 
 const app = express();
-const PORT = 4000;
+const PORT = 3000;
 
 const start = async () => {
-  await database.connect();
   app.listen(PORT, () => console.log(`Server is listen in port ${PORT}`));
   routes(app);
 };

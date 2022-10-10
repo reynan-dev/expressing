@@ -4,7 +4,7 @@ class Student extends Model {
 
   static associate (models) {
     Student.belongsTo(models.School)
-    Student.belongsToMany(models.Skill, { through: 'student_skill' })
+    Student.belongsToMany(models.Skill, { through: 'student_skills' })
   }
 }
 

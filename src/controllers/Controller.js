@@ -2,9 +2,6 @@ import LIST_SERVICES from '../services/index.js';
 import getErrorMessage from '../utils/error.js';
 
 class Controller {
-  // deno-lint-ignore no-explicit-any
-  service;
-  path;
 
   constructor(path, service) {
     this.path = path;
@@ -14,10 +11,6 @@ class Controller {
   index = async (_req, res) => {
     try {
       const obj = await this.service.find();
-
-      if (Object.keys(obj).length === 0) {
-        throw new Error('Not found');
-      }
 
       return res.status(200).json({
         data: obj,
@@ -34,13 +27,9 @@ class Controller {
     try {
       const obj = (await this.service.find_one_by({ id }));
 
-      if (Object.keys(obj).length === 0) {
-        throw new Error('Not found');
-      }
-
       return res.status(200).json({
         data: obj,
-        message: 'Successfuly found',
+        message: 'Successfuly found.',
       });
     } catch (error) {
       this.catch_errors(error, res);
@@ -54,7 +43,7 @@ class Controller {
       const obj = await this.service.create(data);
 
       if (Object.keys(obj).length === 0) {
-        throw new Error('Not found');
+        throw new Error('Something was wrong.');
       }
 
       return res.status(201).json({
@@ -71,15 +60,16 @@ class Controller {
     const data = req.body;
 
     try {
-      const obj = await this.service.update(id, data);
+
+      const obj = await this.service.update(data, { where: { id: id } });
 
       if (Object.keys(obj).length === 0) {
-        throw new Error('Not found');
+        throw new Error('Not found.');
       }
 
       return res.status(200).json({
         data: obj,
-        message: 'Successfuly updated',
+        message: 'Successfuly updated.',
       });
     } catch (error) {
       this.catch_errors(error, res);
@@ -93,7 +83,7 @@ class Controller {
       const obj = await this.service.delete(id);
 
       if (Object.keys(obj).length === 0) {
-        throw new Error('Not found');
+        throw new Error('Not found.');
       }
 
       return res.status(204).json({
@@ -104,19 +94,30 @@ class Controller {
     }
   };
 
+  restore = async (req, res) => {
+    const { id } = req.params;
+    try {
+      const obj = await this.service.restore({ where: { id: id } });
+
+      if (Object.keys(obj).length === 0) {
+        throw new Error('Not found.');
+      }
+
+      return res.status(200).json({
+        message: 'Successfuly restored',
+      });
+    }
+    catch (error) {
+      this.catch_errors(error, res);
+    }
+  };
+
   relations = async (req, res) => {
     const { id } = req.params;
     const { relation } = req.params;
 
     try {
-      const obj = (await this.service.find_relation(
-        relation,
-        { id },
-      ));
-
-      if (Object.keys(obj).length === 0) {
-        throw new Error('Not found');
-      }
+      const obj = await this.service.find_relation(relation, { id });
 
       return res.status(200).json({
         data: obj,
@@ -131,11 +132,11 @@ class Controller {
     const error = getErrorMessage(err);
 
     switch (error) {
-      case 'Not found':
+      case 'Not found.':
         // eslint-disable-next-line no-console
         console.error(error);
         return res.status(404).json({ message: error });
-      case 'Invalid data':
+      case 'Invalid data.':
         // eslint-disable-next-line no-console
         console.error(error);
         return res.status(422).json({ message: error });

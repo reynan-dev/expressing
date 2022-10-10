@@ -1,134 +1,71 @@
-import { DataSource } from 'typeorm';
-
-import Skill from '../models/SkillModels.js';
-import School from '../models/SchoolModels.js';
-import Wilder from '../models/WilderModels.js';
-
 export default class Database {
   static instance;
-  DS;
-  type;
-  database;
-  static entities = [];
-  url;
-  host;
-  username;
-  password;
 
-  constructor(
-    type,
-    database,
-    url = '',
-    host = '',
-    username = '',
-    password = '',
-  ) {
-    this.type = type;
+  constructor(dialect, user, password, host, port, database) {
+    this.dialect = dialect;
+    this.user = user;
+    this.password = password;
+    this.host = host;
+    this.port = port;
     this.database = database;
-
-    if (type === 'mysql' || type === 'postgres' || type === 'mongodb') {
-      this.url = url;
-      this.host = host;
-      this.username = username;
-      this.password = password;
-    }
   }
 
-  static start_mysql(
-    databaseName,
-    url = '',
-    host = '',
-    username = '',
-    password = '',
-  ) {
+  static setup (dialect, user = '', password = '', host = '', port = '', database = '') {
     if (!this.instance) {
-      this.instance = new Database(
-        'mysql',
-        databaseName,
-        url,
-        host,
-        username,
-        password,
-      );
+      this.instance = new Database(dialect, user, password, host, port, database);
     }
     return this.instance;
   }
 
-  static start_postgres(
-    databaseName,
-    url = '',
-    host = '',
-    username = '',
-    password = '',
-  ) {
-    if (!this.instance) {
-      this.instance = new Database(
-        'postgres',
-        databaseName,
-        url,
-        host,
-        username,
-        password,
-      );
+  options (opt) {
+    this.options = opt;
+  }
+
+  _associateModels (db) {
+    Object.keys(db).forEach(modelName => {
+      if (db[modelName].associate) {
+        db[modelName].associate(db);
+      }
+    });
+  }
+
+  async sync (opt = {}) {
+    await this._start.sync({ force: true });
+    console.log("All models were synchronized successfully.");
+  }
+
+  _start () {
+    if (this.dialect === 'sqlite') {
+      if (this.opt) {
+        return new Sequelize('sqlite::memory:', this.opt);
+      }
+
+      return new Sequelize('sqlite::memory:');
     }
-    return this.instance;
-  }
-
-  static start_mongodb(
-    databaseName,
-    url = '',
-    host = '',
-    username = '',
-    password = '',
-  ) {
-    if (!this.instance) {
-      this.instance = new Database(
-        'mongodb',
-        databaseName,
-        url,
-        host,
-        username,
-        password,
-      );
+    else {
+      if (this.opt) {
+        return new Sequelize(`${this.dialect}://${this.user}:${this.password}@${this.host}:${this.port}/${this.database}`, this.opt);
+      }
+      return new Sequelize(`${this.dialect}://${this.user}:${this.password}@${this.host}:${this.port}/${this.database}`);
     }
-    return this.instance;
   }
 
-  static start_sqlite(databaseName) {
-    if (!this.instance) {
-      this.instance = new Database('sqlite', databaseName);
+  async connect (db) {
+    try {
+      await this._associateModels(db);
+      await this._start.authenticate();
+      console.log('Connection has been established successfully.');
+    } catch (error) {
+      console.error('Unable to connect to the database:', error);
     }
-    return this.instance;
   }
 
-  // deno-lint-ignore no-explicit-any
-  static new_entity(entity) {
-    Database.entities.push(entity);
-  }
-
-  static show_entities() {
-    return Database.entities;
-  }
-
-  _datasource() {
-    if (!this.DS) {
-      this.DS = new DataSource({
-        type: this.type,
-        database: this.database,
-        synchronize: true,
-        entities: Database.entities,
-      });
+  async close () {
+    try {
+      await this._start.close();
+      console.log('Connection has been closed successfully.');
+    } catch (error) {
+      console.error('Unable to close the database:', error);
     }
-    return this.DS;
   }
-
-  connect = async () => {
-    await this._datasource().initialize();
-    // eslint-disable-next-line no-console
-    console.log('Successfully connected to database');
-  };
 }
-
-Database.new_entity(Skill);
-Database.new_entity(School);
-Database.new_entity(Wilder);
