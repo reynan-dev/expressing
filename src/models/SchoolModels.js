@@ -1,4 +1,5 @@
 import { DataTypes, Model } from 'sequelize'
+
 class School extends Model {
 
   static associate (models) {
@@ -7,8 +8,21 @@ class School extends Model {
 }
 
 School.init({
-  school: DataTypes.STRING,
-  city: DataTypes.STRING,
+  id: {
+    type: Sequelize.UUID,
+    defaultValue: Sequelize.UUIDV4,
+    allowNull: false,
+    primaryKey: true
+  },
+  school: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true
+  },
+  city: {
+    type: DataTypes.STRING,
+    allowNull: false
+  }
 }, {
   sequelize,
   modelName: 'school',

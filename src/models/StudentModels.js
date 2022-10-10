@@ -9,6 +9,12 @@ class Student extends Model {
 }
 
 Student.init({
+  id: {
+    type: Sequelize.UUID,
+    defaultValue: Sequelize.UUIDV4,
+    allowNull: false,
+    primaryKey: true
+  },
   name: DataTypes.STRING,
   email: {
     type: DataTypes.STRING,
@@ -16,7 +22,9 @@ Student.init({
       isEmail: {
         args: true,
         msg: 'Invalid email',
-      }
+      },
+      allowNull: false,
+      unique: true,
     }
   }
 }, {

@@ -8,7 +8,17 @@ class Skill extends Model {
 }
 
 Skill.init({
-  skill: DataTypes.STRING,
+  id: {
+    type: Sequelize.UUID,
+    defaultValue: Sequelize.UUIDV4,
+    allowNull: false,
+    primaryKey: true
+  },
+  skill: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true
+  },
 }, {
   sequelize,
   modelName: 'skill',

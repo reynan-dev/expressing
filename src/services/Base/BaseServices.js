@@ -7,7 +7,7 @@ export default class BaseServices {
 
   constructor(path, model) {
     this.path = path;
-    this.repository = database._datasource().getRepository(model);
+    this.repository = database[].getRepository(model);
   }
 
   find() {
