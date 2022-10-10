@@ -6,8 +6,8 @@ import Wilder from './WilderModels.js'
 @Entity()
 export default class Skill extends BaseModels {
   @Column()
-    skill!: string
+    skill
 
   @ManyToMany(() => Wilder, (wilder) => wilder.skills)
-    wilders!: Wilder[]
+    wilders
 }

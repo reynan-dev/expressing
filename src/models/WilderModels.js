@@ -7,12 +7,12 @@ import Skill from './SkillModels.js'
 @Entity()
 export default class Wilder extends BaseModels {
   @Column()
-    username!: string
+    username
 
   @ManyToOne(() => School, (school) => school.wilders, { eager: true })
-    schools!: School
+    schools
 
   @ManyToMany(() => Skill, { eager: true })
   @JoinTable()
-    skills!: Skill[]
+    skills
 }

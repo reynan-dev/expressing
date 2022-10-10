@@ -6,11 +6,11 @@ import Wilder from './WilderModels.js'
 @Entity()
 export default class School extends BaseModels {
   @Column({ unique: true })
-    school!: string
+    school
 
   @Column()
-    city!: string
+    city
 
   @OneToMany(() => Wilder, (wilder) => wilder.schools)
-    wilders!: Wilder[]
+    wilders
 }
