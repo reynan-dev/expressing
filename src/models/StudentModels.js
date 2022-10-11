@@ -1,5 +1,7 @@
 import { DataTypes, Model } from 'sequelize'
+import {Sequelize} from 'sequelize'
 
+export default (sequelize) => {
 class Student extends Model {
 
   static associate (models) {
@@ -34,4 +36,4 @@ Student.init({
   timestamps: true,
 })
 
-return Student
+return Student }

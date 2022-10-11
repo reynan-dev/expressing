@@ -1,5 +1,5 @@
-import BaseServices from './Base/BaseServices.js';
-import Skill from '../models/SkillModels.js';
+import BaseServices from './Base/Services';
+import Skill from '../models/SkillModels';
 
 class SkillServices extends BaseServices {
   constructor() {

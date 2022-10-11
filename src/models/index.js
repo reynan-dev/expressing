@@ -10,17 +10,18 @@ const _dirname = path.dirname(_filename);
 const _basename = path.basename(_filename);
 
 const db = {};
+const sequelize = Database.setup('sqlite')
 
 readdirSync(_dirname)
   .filter((file) => {
     return (file.indexOf('.') !== 0) && (file !== _basename) && (file.slice(-3) === '.js')
   })
-  .map((file) => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+  .map(async (file) => {
+    const model = await import(`${_dirname}/${file}`)
+    console.log(model.default(sequelize.start()));
     db[model.name] = model;
   })
 
-const sequelize = Database.setup('sqlite')
 sequelize.connect(db)
 
 db.sequelize = sequelize;

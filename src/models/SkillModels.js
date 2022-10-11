@@ -1,5 +1,7 @@
 import { DataTypes, Model } from 'sequelize'
+import { Sequelize } from 'sequelize'
 
+export default (sequelize) => {
 class Skill extends Model {
 
   static associate (models) {
@@ -26,4 +28,4 @@ Skill.init({
   timestamps: true,
 })
 
-return Skill
+return Skill} 

@@ -65,3 +65,6 @@ class StudentServices extends BaseServices {
       return error;
     }
   }
+}
+
+export default new StudentServices();

@@ -1,6 +1,6 @@
-import { database } from '../../index.js';
+const { database } = require('../../index.js');
 
-export default class BaseServices {
+class BaseServices {
 
   constructor(path, model) {
     this.path = path;
@@ -140,3 +140,5 @@ export default class BaseServices {
     return database.sequelize.transaction(transaction_function);
   }
 }
+
+module.exports = BaseServices;

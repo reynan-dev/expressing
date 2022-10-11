@@ -1,3 +1,4 @@
+import { Sequelize } from 'sequelize';
 export default class Database {
   static instance;
 
@@ -34,7 +35,7 @@ export default class Database {
     console.log("All models were synchronized successfully.");
   }
 
-  _start () {
+  start () {
     if (this.dialect === 'sqlite') {
       if (this.opt) {
         return new Sequelize('sqlite::memory:', this.opt);
@@ -53,7 +54,7 @@ export default class Database {
   async connect (db) {
     try {
       await this._associateModels(db);
-      await this._start.authenticate();
+      await this.start.authenticate();
       console.log('Connection has been established successfully.');
     } catch (error) {
       console.error('Unable to connect to the database:', error);

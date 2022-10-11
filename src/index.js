@@ -1,5 +1,5 @@
 import express from 'express';
-import db from './models/index';
+import db from './models/index.js';
 import routes from './routes/routes';
 
 const database = db;
